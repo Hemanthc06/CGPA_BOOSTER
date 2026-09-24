@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CGPA Booster | Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15,18,32,.45);
+    z-index: 900;
+}
+@media (max-width: 768px) {
+    .sidebar.mobile-open + .sidebar-overlay {
+        display: block;
+    }
+}
+</style>
+
+<style>
+.quick-actions {
+    background: #ffffff;
+    border: 1px solid #e8eaf0;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 22px;
+    display: grid;
+    grid-template-columns: 1.25fr repeat(4, 1fr);
+    gap: 10px;
+    box-shadow: 0 8px 25px rgba(31, 35, 50, 0.05);
+}
+
+.quick-actions-title {
+    padding: 9px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.quick-actions-title strong {
+    font-size: 13px;
+    color: #202534;
+}
+
+.quick-actions-title span {
+    color: #7b8191;
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+.quick-action-btn {
+    border: 1px solid #eceef4;
+    background: #fafbff;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    text-align: left;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.quick-action-btn:hover {
+    background: #f3f1ff;
+    border-color: #d9d4ff;
+    transform: translateY(-1px);
+}
+
+.quick-action-btn > span {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: #eeebff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.quick-action-btn strong {
+    display: block;
+    color: #303546;
+    font-size: 11px;
+}
+
+.quick-action-btn small {
+    display: block;
+    color: #8a8fa0;
+    font-size: 9px;
+    margin-top: 3px;
+}
+
+@media (max-width: 1100px) {
+    .quick-actions {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .quick-actions-title {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 600px) {
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-actions-title {
+        grid-column: auto;
+    }
+}
+</style>
+
+
+<style>
+.timetable-date {
+    color: #7b8191;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.today-timetable {
+    display: grid;
+    gap: 10px;
+}
+
+.timetable-row {
+    display: grid;
+    grid-template-columns: 85px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 13px;
+    border: 1px solid #eceef4;
+    border-radius: 10px;
+    background: #fafbff;
+}
+
+.timetable-row.current {
+    border-color: #cfc8ff;
+    background: #f5f3ff;
+}
+
+.timetable-row.completed {
+    opacity: .8;
+}
+
+.timetable-time {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6c5ce7;
+}
+
+.timetable-subject strong {
+    display: block;
+    font-size: 12px;
+    color: #303546;
+}
+
+.timetable-subject small {
+    display: block;
+    color: #8a8fa0;
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+.attendance-action {
+    display: flex;
+    gap: 6px;
+}
+
+.present-btn,
+.absent-btn {
+    border: none;
+    border-radius: 7px;
+    padding: 7px 9px;
+    font-size: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.present-btn {
+    background: #e5f9ef;
+    color: #159957;
+}
+
+.absent-btn {
+    background: #fff0f2;
+    color: #d9304f;
+}
+
+.pending-badge {
+    background: #fff3df;
+    color: #b77900;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.completed-badge {
+    background: #eef3ff;
+    color: #4f6fd8;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+@media (max-width: 600px) {
+    .timetable-row {
+        grid-template-columns: 1fr;
+        gap: 7px;
+    }
+
+    .attendance-action {
+        width: 100%;
+    }
+
+    .present-btn,
+    .absent-btn {
+        flex: 1;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo-section">
+            <div class="logo-icon">C</div>
+
+            <div>
+                <h2>CGPA Booster</h2>
+                <span>Academic Manager</span>
+            </div>
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <p class="nav-title">MAIN</p>
+
+            <button class="nav-item active" onclick="showPage('dashboardPage')">
+                <span>📊</span>
+                Dashboard
+            </button>
+
+            <button class="nav-item" onclick="showPage('profilePage')">
+                <span>👤</span>
+                Profile
+            </button>
+
+
+            <p class="nav-title">ACADEMICS</p>
+
+            <button class="nav-item" onclick="showPage('semesterPage')">
+                <span>🎓</span>
+                Semesters
+            </button>
+
+            <button class="nav-item" onclick="showPage('subjectPage')">
+                <span>📚</span>
+                Subjects
+            </button>
+
+            <button class="nav-item" onclick="showPage('attendancePage')">
+                <span>📅</span>
+                Attendance
+            </button>
+
+
+            <p class="nav-title">PLANNING</p>
+
+            <button class="nav-item" onclick="showPage('plannerPage')">
+                <span>📝</span>
+                Study Planner
+            </button>
+
+            <button class="nav-item" onclick="showPage('goalPage')">
+                <span>🎯</span>
+                Goals
+            </button>
+
+            <button class="nav-item" onclick="showPage('targetPage')">
+                <span>🚀</span>
+                CGPA Target
+            </button>
+
+
+            <p class="nav-title">ANALYTICS</p>
+
+            <button class="nav-item" onclick="showPage('analysisPage')">
+                <span>📈</span>
+                Analysis
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <button class="logout-btn" onclick="logoutUser()">
+                <span>🚪</span>
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+    <!-- Mobile sidebar overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main-content">
+
+
+        <!-- ================= TOPBAR ================= -->
+<header class="topbar">
+
+    <div class="mobile-menu" role="button" tabindex="0"
+         aria-label="Open navigation menu"
+         onclick="toggleSidebar()">
+        ☰
+    </div>
+
+    <div class="page-heading">
+        <h1 id="pageTitle">Dashboard</h1>
+        <p id="pageSubtitle">
+            Welcome back! Here's your academic overview.
+        </p>
+    </div>
+
+    <div class="topbar-right">
+
+        <button class="notification-btn" onclick="toggleTheme()" title="Toggle theme">
+            🌙
+        </button>
+
+        <button class="notification-btn" title="Notifications">
+            🔔
+            <span class="notification-dot"></span>
+        </button>
+
+        <div class="user-mini">
+
+            <div class="user-avatar" id="userAvatar">
+                U
+            </div>
+
+            <div class="user-mini-info">
+                <strong id="topUserName">Student</strong>
+                <span id="topUserEmail">student@email.com</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+        <!-- ================================================= -->
+        <!-- DASHBOARD PAGE -->
+        <!-- ================================================= -->
+
+        <section id="dashboardPage" class="page active-page">
+
+
+            <!-- HERO -->
+
+            <div class="dashboard-hero">
+
+                <div class="hero-content">
+
+                    <span class="hero-label">
+                        ✨ ACADEMIC OVERVIEW
+                    </span>
+
+                    <h2>
+                        Keep pushing towards
+                        <span>your goals.</span>
+                    </h2>
+
+                    <p>
+                        Track your academic performance and stay
+                        consistent with your study plan.
+                    </p>
+
+                </div>
+
+
+                <div class="hero-cgpa">
+
+                    <span>Current CGPA</span>
+
+                    <strong id="dashboardCGPA">
+                        0.00
+                    </strong>
+
+                    <small>
+                        Target:
+                        <b id="dashboardTarget">
+                            0.00
+                        </b>
+                    </small>
+
+                </div>
+
+            </div>
+
+            <!-- ================= QUICK ACTIONS ================= -->
+            <div class="quick-actions">
+                <div class="quick-actions-title">
+                    <strong>Quick Actions</strong>
+                    <span>Manage your academics faster</span>
+                </div>
+
+                <button type="button" class="quick-action-btn" onclick="openSubjectForm()">
+                    <span>📚</span>
+                    <div>
+                        <strong>Add Subject</strong>
+                        <small>Record a new subject</small>
+                    </div>
+                </button>
+
+                <button type="button" class="quick-action-btn" onclick="openSemesterForm()">
+                    <span>🎓</span>
+                    <div>
+                        <strong>Add Semester</strong>
+                        <small>Update semester results</small>
+                    </div>
+                </button>
+
+                <button type="button" class="quick-action-btn" onclick="openAttendanceForm()">
+                    <span>📅</span>
+                    <div>
+                        <strong>Attendance</strong>
+                        <small>Update attendance</small>
+                    </div>
+                </button>
+
+                <button type="button" class="quick-action-btn" onclick="showPage('targetPage')">
+                    <span>🎯</span>
+                    <div>
+                        <strong>Set Target</strong>
+                        <small>Choose your CGPA goal</small>
+                    </div>
+                </button>
+            </div>
+
+
+            <!-- ================= STATS ================= -->
+
+            <div class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon purple">
+                        🎓
+                    </div>
+
+                    <div>
+                        <span>Current CGPA</span>
+
+                        <h3 id="statCGPA">
+                            0.00
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon blue">
+                        📊
+                    </div>
+
+                    <div>
+                        <span>Current SGPA</span>
+
+                        <h3 id="statSGPA">
+                            0.00
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon green">
+                        📅
+                    </div>
+
+                    <div>
+                        <span>Attendance</span>
+
+                        <h3>
+                            <span id="statAttendance">0</span>%
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon orange">
+                        📚
+                    </div>
+
+                    <div>
+                        <span>Subjects</span>
+
+                        <h3 id="statSubjects">
+                            0
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= CHART + TARGET ================= -->
+
+            <div class="two-column-grid">
+
+
+                <div class="dashboard-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h3>SGPA Progress</h3>
+                            <p>Semester-wise performance</p>
+                        </div>
+
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="sgpaChart"></canvas>
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h3>CGPA Target</h3>
+                            <p>Your progress towards your goal</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="target-display">
+
+                        <div class="target-circle">
+                            <span id="targetPercentage">
+                                0%
+                            </span>
+                        </div>
+
+                        <h3>
+                            Target:
+                            <span id="targetCGPA">
+                                0.00
+                            </span>
+                        </h3>
+
+                        <p>
+                            Current CGPA:
+                            <strong id="currentTargetCGPA">
+                                0.00
+                            </strong>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= SUBJECTS ================= -->
+
+            <div class="dashboard-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h3>Subject Performance</h3>
+                        <p>Your latest subject results</p>
+                    </div>
+
+                    <button
+                        class="view-all-btn"
+                        onclick="showPage('subjectPage')">
+                        View All →
+                    </button>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                        <tr>
+                            <th>Subject</th>
+                            <th>Code</th>
+                            <th>Credits</th>
+                            <th>Grade</th>
+                            <th>Grade Point</th>
+                        </tr>
+
+                        </thead>
+
+                        <tbody id="dashboardSubjectTable">
+
+                        <tr>
+                            <td colspan="5">
+                                No subject data available
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= ATTENDANCE ================= -->
+
+            <div class="two-column-grid">
+
+
+                <div class="dashboard-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h3>Attendance</h3>
+                            <p>Current attendance status</p>
+                        </div>
+
+                        <button
+                            class="view-all-btn"
+                            onclick="showPage('attendancePage')">
+                            View All →
+                        </button>
+
+                    </div>
+
+
+                    <div id="dashboardAttendance">
+
+                        <div class="empty-state">
+                            No attendance data available.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STUDY PLAN -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <h3>Today's Study Plan</h3>
+                            <p>Your planned activities</p>
+                        </div>
+
+                        <button
+                            class="view-all-btn"
+                            onclick="showPage('plannerPage')">
+                            Planner →
+                        </button>
+
+                    </div>
+
+
+                    <div id="dashboardStudyPlan">
+
+                        <div class="empty-state">
+                            No study plan available.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= GOALS ================= -->
+
+            <div class="dashboard-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h3>Academic Goals</h3>
+                        <p>Track your current goals</p>
+                    </div>
+
+                    <button
+                        class="view-all-btn"
+                        onclick="showPage('goalPage')">
+                        Manage →
+                    </button>
+
+                </div>
+
+
+                <div id="dashboardGoals" class="goals-grid">
+
+                    <div class="empty-state">
+                        No goals available.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- PROFILE PAGE -->
+        <!-- ================================================= -->
+
+        <section id="profilePage" class="page">
+
+            <div class="page-header">
+                <h2>My Profile</h2>
+                <p>Manage your student information.</p>
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <form id="profileForm" class="form-grid">
+
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input
+                            type="text"
+                            id="profileName"
+                            placeholder="Enter your name">
+                    </div>
+
+
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input
+                            type="email"
+                            id="profileEmail"
+                            placeholder="Enter your email"
+                            readonly>
+                    </div>
+
+
+                    <div class="input-group">
+                        <label>Roll Number</label>
+                        <input
+                            type="text"
+                            id="profileRollNumber"
+                            placeholder="Enter roll number">
+                    </div>
+
+
+                    <div class="input-group">
+                        <label>Branch</label>
+                        <input
+                            type="text"
+                            id="profileBranch"
+                            placeholder="Enter branch">
+                    </div>
+
+                </form>
+
+
+                <button
+                    class="primary-btn"
+                    onclick="updateProfile()">
+                    Save Profile
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- SEMESTER PAGE -->
+        <!-- ================================================= -->
+
+        <section id="semesterPage" class="page">
+
+            <div class="page-header">
+
+                <div>
+                    <h2>Semesters</h2>
+                    <p>Manage your semester performance.</p>
+                </div>
+
+                <button
+                    class="primary-btn"
+                    onclick="openSemesterForm()">
+                    + Add Semester
+                </button>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                        <tr>
+                            <th>Semester</th>
+                            <th>SGPA</th>
+                            <th>Credits</th>
+                            <th>Actions</th>
+                        </tr>
+
+                        </thead>
+
+                        <tbody id="semesterTable">
+
+                        <tr>
+                            <td colspan="4">
+                                No semester data available.
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- SUBJECT PAGE -->
+        <!-- ================================================= -->
+
+        <section id="subjectPage" class="page">
+
+            <div class="page-header">
+
+                <div>
+                    <h2>Subjects</h2>
+                    <p>Manage your subjects and grades.</p>
+                </div>
+
+                <button
+                    class="primary-btn"
+                    onclick="openSubjectForm()">
+                    + Add Subject
+                </button>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                        <tr>
+                            <th>Subject</th>
+                            <th>Code</th>
+                            <th>Credits</th>
+                            <th>Grade</th>
+                            <th>Grade Point</th>
+                            <th>Actions</th>
+                        </tr>
+
+                        </thead>
+
+                        <tbody id="subjectTable">
+
+                        <tr>
+                            <td colspan="6">
+                                No subject data available.
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- ATTENDANCE PAGE -->
+        <!-- ================================================= -->
+
+        <section id="attendancePage" class="page">
+
+            <div class="page-header">
+
+                <div>
+                    <h2>Attendance</h2>
+                    <p>Monitor your subject-wise attendance.</p>
+                </div>
+
+                <button
+                    class="primary-btn"
+                    onclick="openAttendanceForm()">
+                    + Add Attendance
+                </button>
+
+            </div>
+
+
+            <div class="dashboard-card timetable-card">
+                <div class="card-header">
+                    <div>
+                        <h3>Today's Timetable</h3>
+                        <p>Classes are detected automatically from your timetable.</p>
+                    </div>
+                    <span id="timetableDate" class="timetable-date"></span>
+                </div>
+
+                <div id="todayTimetable" class="today-timetable">
+                    <div class="empty-state">Loading today's timetable...</div>
+                </div>
+            </div>
+            <div class="dashboard-card">
+    <div class="card-header">
+        <div>
+            <h3>Today's Class Records</h3>
+            <p>Delete a slot if you don't need it.</p>
+        </div>
+    </div>
+
+    <div id="todayClassRecords" class="today-timetable">
+        <div class="empty-state">Loading today's records...</div>
+    </div>
+</div>
+
+
+            <div
+                id="attendanceCards"
+                class="attendance-grid">
+
+                <div class="empty-state">
+                    No attendance data available.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- STUDY PLANNER PAGE -->
+        <!-- ================================================= -->
+
+        <section id="plannerPage" class="page">
+
+            <div class="page-header">
+
+                <div>
+                    <h2>Study Planner</h2>
+                    <p>Organize your study schedule.</p>
+                </div>
+
+                <button
+                    class="primary-btn"
+                    onclick="openStudyPlanForm()">
+                    + Add Study Plan
+                </button>
+
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                        <tr>
+                            <th>Day</th>
+                            <th>Subject</th>
+                            <th>Time</th>
+                            <th>Topic</th>
+                            <th>Priority</th>
+                            <th>Actions</th>
+                        </tr>
+
+                        </thead>
+
+                        <tbody id="studyPlanTable">
+
+                        <tr>
+                            <td colspan="6">
+                                No study plans available.
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- GOALS PAGE -->
+        <!-- ================================================= -->
+
+        <section id="goalPage" class="page">
+
+            <div class="page-header">
+
+                <div>
+                    <h2>Academic Goals</h2>
+                    <p>Set and track your academic goals.</p>
+                </div>
+
+                <button
+                    class="primary-btn"
+                    onclick="openGoalForm()">
+                    + Add Goal
+                </button>
+
+            </div>
+
+
+            <div
+                id="goalsContainer"
+                class="goals-grid">
+
+                <div class="empty-state">
+                    No goals available.
+                </div>
+
+            </div>
+
+        </section>
+
+<!-- ================================================= -->
+<!-- TARGET PAGE -->
+<!-- ================================================= -->
+
+<section id="targetPage" class="page">
+
+    <div class="page-header">
+
+        <div>
+            <h2>CGPA Target</h2>
+            <p>Set your desired CGPA target.</p>
+        </div>
+
+    </div>
+
+
+    <!-- Current CGPA + Save Target -->
+
+    <div class="dashboard-card target-form-card">
+
+        <div class="target-large">
+
+            <span>Current CGPA</span>
+
+            <strong id="targetPageCurrentCGPA">
+                0.00
+            </strong>
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>Target CGPA</label>
+
+            <input
+                type="number"
+                id="targetInput"
+                min="0"
+                max="10"
+                step="0.01"
+                placeholder="Example: 9.00">
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            onclick="saveTarget()">
+            Save Target
+        </button>
+
+    </div>
+
+
+    <!-- ================= CGPA PREDICTOR ================= -->
+
+    <div class="dashboard-card">
+
+        <div class="card-header">
+
+            <div>
+                <h3>CGPA Predictor</h3>
+                <p>What average SGPA do you need in your remaining credits?</p>
+            </div>
+
+        </div>
+
+        <div id="targetPredictor">
+            <div class="empty-state">Add semester data to see predictions.</div>
+        </div>
+
+    </div>
+
+</section>
+        <!-- ================================================= -->
+        <!-- ANALYSIS PAGE -->
+        <!-- ================================================= -->
+
+        <section id="analysisPage" class="page">
+
+            <div class="page-header">
+
+                <h2>Academic Analysis</h2>
+
+                <p>
+                    Understand your academic performance.
+                </p>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon purple">
+                        📈
+                    </div>
+
+                    <div>
+                        <span>CGPA</span>
+                        <h3 id="analysisCGPA">0.00</h3>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon blue">
+                        🎓
+                    </div>
+
+                    <div>
+                        <span>Average SGPA</span>
+                        <h3 id="analysisSGPA">0.00</h3>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon green">
+                        📅
+                    </div>
+
+                    <div>
+                        <span>Attendance</span>
+                        <h3>
+                            <span id="analysisAttendance">0</span>%
+                        </h3>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h3>Performance Analysis</h3>
+                        <p>
+                            Semester-wise academic progress
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="chart-container large">
+                    <canvas id="analysisChart"></canvas>
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<!-- ================= MOBILE NAV ================= -->
+
+<div class="mobile-bottom-nav">
+
+    <button onclick="showPage('dashboardPage')">
+        📊
+        <span>Home</span>
+    </button>
+
+    <button onclick="showPage('semesterPage')">
+        🎓
+        <span>Semesters</span>
+    </button>
+
+    <button onclick="showPage('subjectPage')">
+        📚
+        <span>Subjects</span>
+    </button>
+
+    <button onclick="showPage('plannerPage')">
+        📝
+        <span>Planner</span>
+    </button>
+
+    <button onclick="showPage('profilePage')">
+        👤
+        <span>Profile</span>
+    </button>
+
+</div>
+
+<!-- ==================== FORM MODALS ==================== -->
+
+<!-- Add Semester Modal -->
+<div id="semesterModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Add Semester</h2>
+            <button type="button" class="close-btn" onclick="closeModal('semesterModal')">&times;</button>
+        </div>
+
+        <form id="semesterForm">
+            <div class="form-group">
+                <label>Semester Number</label>
+                <input
+                    type="number"
+                    id="semesterNumber"
+                    min="1"
+                    max="12"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>SGPA</label>
+                <input
+                    type="number"
+                    id="semesterSGPA"
+                    min="0"
+                    max="10"
+                    step="0.01"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Total Credits</label>
+                <input
+                    type="number"
+                    id="semesterCredits"
+                    min="1"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="primary-btn">
+                Save Semester
+            </button>
+        </form>
+    </div>
+</div>
+
+
+<!-- Add Subject Modal -->
+<div id="subjectModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Add Subject</h2>
+            <button type="button" class="close-btn" onclick="closeModal('subjectModal')">&times;</button>
+        </div>
+
+        <form id="subjectForm">
+
+            <div class="form-group">
+                <label>Semester</label>
+                <input
+                    type="number"
+                    id="subjectSemester"
+                    min="1"
+                    max="12"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Subject Name</label>
+                <input
+                    type="text"
+                    id="subjectName"
+                    placeholder="Example: Data Structures"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Grade</label>
+                <input
+                    type="number"
+                    id="subjectGrade"
+                    min="0"
+                    max="10"
+                    step="0.01"
+                    placeholder="Example: 9"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Credits</label>
+                <input
+                    type="number"
+                    id="subjectCredits"
+                    min="1"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+                <select id="subjectCategory" required>
+                    <option value="">Select Category</option>
+                    <option value="Core">Core</option>
+                    <option value="Elective">Elective</option>
+                    <option value="Lab">Lab</option>
+                    <option value="Project">Project</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <button type="submit" class="primary-btn">
+                Save Subject
+            </button>
+        </form>
+    </div>
+</div>
+
+
+<!-- Add Attendance Modal -->
+<div id="attendanceModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Add Attendance</h2>
+            <button type="button" class="close-btn" onclick="closeModal('attendanceModal')">&times;</button>
+        </div>
+
+        <form id="attendanceForm">
+
+            <div class="form-group">
+                <label>Subject Name</label>
+                <input
+                    type="text"
+                    id="attendanceSubject"
+                    placeholder="Example: Java"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Classes Present</label>
+                <input
+                    type="number"
+                    id="classesPresent"
+                    min="0"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Total Classes</label>
+                <input
+                    type="number"
+                    id="totalClasses"
+                    min="1"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="primary-btn">
+                Save Attendance
+            </button>
+        </form>
+    </div>
+</div>
+
+
+<!-- Add Study Plan Modal -->
+<div id="studyPlanModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Add Study Plan</h2>
+            <button type="button" class="close-btn" onclick="closeModal('studyPlanModal')">&times;</button>
+        </div>
+
+        <form id="studyPlanForm">
+
+            <div class="form-group">
+                <label>Day</label>
+                <select id="planDay" required>
+                    <option value="">Select Day</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Subject</label>
+                <input
+                    type="text"
+                    id="planSubject"
+                    placeholder="Example: Java"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Time Slot</label>
+                <input
+                    type="text"
+                    id="planTimeSlot"
+                    placeholder="Example: 6:00 PM - 7:00 PM"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Topic</label>
+                <input
+                    type="text"
+                    id="planTopic"
+                    placeholder="Example: OOP Concepts"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Priority</label>
+                <select id="planPriority" required>
+                    <option value="">Select Priority</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+
+            <button type="submit" class="primary-btn">
+                Save Study Plan
+            </button>
+        </form>
+    </div>
+</div>
+
+
+<!-- Add Goal Modal -->
+<div id="goalModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Add Goal</h2>
+            <button type="button" class="close-btn" onclick="closeModal('goalModal')">&times;</button>
+        </div>
+
+        <form id="goalForm">
+
+            <div class="form-group">
+                <label>Goal Title</label>
+                <input
+                    type="text"
+                    id="goalTitle"
+                    placeholder="Example: Improve Java"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea
+                    id="goalDescription"
+                    placeholder="Describe your goal"
+                    rows="4"
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Deadline</label>
+                <input
+                    type="date"
+                    id="goalDeadline"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Priority</label>
+                <select id="goalPriority" required>
+                    <option value="">Select Priority</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+
+            <button type="submit" class="primary-btn">
+                Save Goal
+            </button>
+        </form>
+    </div>
+</div>
+<!-- ================= JAVASCRIPT ================= -->
+
+<script src="script.js"></script>
+
+</body>
+</html>

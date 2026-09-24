@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CGPA Booster - Login</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="login.css">
+
+</head>
+
+
+<body>
+
+<div class="login-container">
+
+
+    <!-- LEFT SIDE -->
+
+    <div class="login-left">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+
+            <div>
+                <h2>CGPA</h2>
+                <span>BOOSTER</span>
+            </div>
+
+        </div>
+
+
+        <div class="welcome-content">
+
+            <span class="small-title">
+                YOUR ACADEMIC COMPANION
+            </span>
+
+            <h1>
+                Turn your academic
+                <span>goals into results.</span>
+            </h1>
+
+            <p>
+                Track your CGPA, manage subjects, monitor attendance,
+                plan your studies and achieve your target CGPA.
+            </p>
+
+
+            <div class="feature-list">
+
+                <div class="feature">
+
+                    <div class="feature-icon purple">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+
+                    <div>
+                        <strong>Track Performance</strong>
+                        <span>Monitor SGPA and CGPA growth</span>
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon blue">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+
+                    <div>
+                        <strong>Manage Attendance</strong>
+                        <span>Never miss your attendance target</span>
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon green">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+
+                    <div>
+                        <strong>Achieve Your Goals</strong>
+                        <span>Build a plan for your target CGPA</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="left-footer">
+            © 2026 CGPA Booster
+        </div>
+
+    </div>
+
+
+
+    <!-- RIGHT SIDE -->
+
+    <div class="login-right">
+
+        <div class="login-card">
+
+
+            <!-- LOGIN -->
+
+            <div id="loginSection">
+
+                <div class="mobile-brand">
+
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+
+                    <strong>CGPA Booster</strong>
+
+                </div>
+
+
+                <div class="form-heading">
+
+                    <span>WELCOME BACK 👋</span>
+
+                    <h2>Sign in to your account</h2>
+
+                    <p>
+                        Enter your details to continue to your dashboard.
+                    </p>
+
+                </div>
+
+
+                <form id="loginForm">
+
+                    <div class="input-group">
+
+                        <label>Email Address</label>
+
+                        <div class="input-box">
+
+                            <i class="fa-regular fa-envelope"></i>
+
+                            <input
+                                type="email"
+                                id="loginEmail"
+                                placeholder="Enter your email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <div class="label-row">
+
+                            <label>Password</label>
+
+                            <a href="#">
+                                Forgot password?
+                            </a>
+
+                        </div>
+
+
+                        <div class="input-box">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+                                type="password"
+                                id="loginPassword"
+                                placeholder="Enter your password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePassword('loginPassword', this)"
+                            >
+
+                                <i class="fa-regular fa-eye"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="remember-row">
+
+                        <label class="checkbox-label">
+
+                            <input type="checkbox">
+
+                            <span>
+                                Remember me
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="login-btn"
+                    >
+
+                        <span>Sign In</span>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+                </form>
+
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+
+                <div class="signup-text">
+
+                    Don't have an account?
+
+                    <button type="button" onclick="showSignup()">
+                        Create Account
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SIGNUP -->
+
+            <div id="signupSection"
+                 class="hidden">
+
+
+                <div class="form-heading">
+
+                    <span>GET STARTED 🚀</span>
+
+                    <h2>Create your account</h2>
+
+                    <p>
+                        Set up your student account to start tracking
+                        your academic progress.
+                    </p>
+
+                </div>
+
+
+                <form id="signupForm">
+
+
+                    <div class="input-group">
+
+                        <label>Full Name</label>
+
+                        <div class="input-box">
+
+                            <i class="fa-regular fa-user"></i>
+
+                            <input
+                                type="text"
+                                id="signupName"
+                                placeholder="Enter your full name"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="input-row">
+
+
+                        <div class="input-group">
+
+                            <label>Roll Number</label>
+
+                            <div class="input-box">
+
+                                <i class="fa-solid fa-id-card"></i>
+
+                                <input
+                                    type="text"
+                                    id="signupRoll"
+                                    placeholder="Roll number"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>Branch</label>
+
+                            <div class="input-box">
+
+                                <i class="fa-solid fa-code-branch"></i>
+
+                                <input
+                                    type="text"
+                                    id="signupBranch"
+                                    placeholder="CSE / AI&ML"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>Email Address</label>
+
+                        <div class="input-box">
+
+                            <i class="fa-regular fa-envelope"></i>
+
+                            <input
+                                type="email"
+                                id="signupEmail"
+                                placeholder="Enter your email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>Password</label>
+
+                        <div class="input-box">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+                                type="password"
+                                id="signupPassword"
+                                placeholder="Create a password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePassword('signupPassword', this)"
+                            >
+
+                                <i class="fa-regular fa-eye"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>Confirm Password</label>
+
+                        <div class="input-box">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                placeholder="Confirm your password"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="terms">
+
+                        <input type="checkbox" required>
+
+                        <span>
+                            I agree to the
+                            <a href="#">Terms &amp; Conditions</a>
+                        </span>
+
+                    </label>
+
+
+                    <button
+                        type="submit"
+                        class="login-btn"
+                    >
+
+                        <span>Create Account</span>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+                </form>
+
+
+                <div class="signup-text">
+
+                    Already have an account?
+
+                    <button type="button" onclick="showLogin()">
+                        Sign In
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script src="login.js"></script>
+
+</body>
+</html>
