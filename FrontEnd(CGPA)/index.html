@@ -5,7 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CGPA Booster | Dashboard</title>
+    <title>AcadHub — Dashboard</title>
+
+    <meta name="description"
+          content="AcadHub — your complete academic companion. Track CGPA, attendance, subjects, study plans, and goals in one dashboard.">
+
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
 
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -247,11 +253,11 @@
     <aside class="sidebar">
 
         <div class="logo-section">
-            <div class="logo-icon">C</div>
+            <div class="logo-icon">🎓</div>
 
             <div>
-                <h2>CGPA Booster</h2>
-                <span>Academic Manager</span>
+                <h2>AcadHub</h2>
+                <span>Academic Companion</span>
             </div>
         </div>
 
@@ -337,48 +343,49 @@
 
 
         <!-- ================= TOPBAR ================= -->
-<header class="topbar">
 
-    <div class="mobile-menu" role="button" tabindex="0"
-         aria-label="Open navigation menu"
-         onclick="toggleSidebar()">
-        ☰
-    </div>
+        <header class="topbar">
 
-    <div class="page-heading">
-        <h1 id="pageTitle">Dashboard</h1>
-        <p id="pageSubtitle">
-            Welcome back! Here's your academic overview.
-        </p>
-    </div>
-
-    <div class="topbar-right">
-
-        <button class="notification-btn" onclick="toggleTheme()" title="Toggle theme">
-            🌙
-        </button>
-
-        <button class="notification-btn" title="Notifications">
-            🔔
-            <span class="notification-dot"></span>
-        </button>
-
-        <div class="user-mini">
-
-            <div class="user-avatar" id="userAvatar">
-                U
+            <div class="mobile-menu" role="button" tabindex="0" aria-label="Open navigation menu" onclick="toggleSidebar()">
+                ☰
             </div>
 
-            <div class="user-mini-info">
-                <strong id="topUserName">Student</strong>
-                <span id="topUserEmail">student@email.com</span>
+            <div class="page-heading">
+                <h1 id="pageTitle">Dashboard</h1>
+                <p id="pageSubtitle">
+                    Welcome back! Here's your academic overview.
+                </p>
             </div>
 
-        </div>
 
-    </div>
+            <div class="topbar-right">
 
-</header>
+                <button class="notification-btn" onclick="toggleTheme()" title="Toggle theme">
+                    🌙
+                </button>
+
+                <button class="notification-btn" title="Notifications">
+                    🔔
+                    <span class="notification-dot"></span>
+                </button>
+
+                <div class="user-mini">
+
+                    <div class="user-avatar" id="userAvatar">
+                        U
+                    </div>
+
+                    <div class="user-mini-info">
+                        <strong id="topUserName">Student</strong>
+                        <span id="topUserEmail">student@email.com</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
 
         <!-- ================================================= -->
         <!-- DASHBOARD PAGE -->
