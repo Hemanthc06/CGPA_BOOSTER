@@ -1,8 +1,8 @@
 <div align="center">
 
-# 🎓 CGPA Booster
+# 🎓 AcadHub
 
-### A full-stack academic management system to track CGPA, attendance, subjects, study plans, and academic goals — all in one place.
+### Your complete academic companion — track CGPA, attendance, subjects, study plans, and academic goals, all in one place.
 
 [![Java](https://img.shields.io/badge/Java-17-orange?logo=openjdk&logoColor=white)](https://openjdk.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen?logo=spring&logoColor=white)](https://spring.io/projects/spring-boot)
@@ -16,9 +16,11 @@
 
 ## 📖 Overview
 
-**CGPA Booster** is a web-based academic companion designed for students who want to take control of their academic performance. It replaces scattered spreadsheets and sticky notes with a single, intelligent dashboard that tracks everything from semester grades to daily attendance.
+**AcadHub** is a web-based academic companion designed for students who want to take control of their academic performance. It replaces scattered spreadsheets and sticky notes with a single, intelligent dashboard that tracks everything from semester grades to daily attendance.
 
-Built with **Spring Boot** on the backend and a lightweight **vanilla JavaScript** frontend, the app delivers a fast, responsive experience without the overhead of a heavy SPA framework.
+Built with **Spring Boot** on the backend and a lightweight **vanilla JavaScript** frontend, AcadHub delivers a fast, responsive experience without the overhead of a heavy SPA framework.
+
+> **AcadHub — Everything academic, all in one place.**
 
 ---
 
@@ -88,7 +90,7 @@ Built with **Spring Boot** on the backend and a lightweight **vanilla JavaScript
 ## 📁 Project Structure
 
 ```
-CGPA-Booster/
+AcadHub/
 │
 ├── backend/                                 # Spring Boot project
 │   ├── pom.xml
@@ -98,7 +100,7 @@ CGPA-Booster/
 │   └── src/
 │       └── main/
 │           ├── java/com/example/cgpa/
-│           │   ├── CgpaBoosterApplication.java
+│           │   ├── AcadHubApplication.java
 │           │   ├── controller/              # REST endpoints
 │           │   │   ├── UserController.java
 │           │   │   ├── SemesterController.java
@@ -127,6 +129,7 @@ CGPA-Booster/
 │   └── login.css                            # Auth page styles
 │
 ├── .gitignore
+├── LICENSE
 └── README.md
 ```
 
@@ -145,8 +148,8 @@ CGPA-Booster/
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/Hemanthc06/CGPA-Booster.git
-cd CGPA-Booster
+git clone https://github.com/Hemanthc06/AcadHub.git
+cd AcadHub
 ```
 
 ### 2️⃣ Set up MySQL
@@ -162,7 +165,7 @@ CREATE DATABASE IF NOT EXISTS cgpa_db;
 Open `backend/src/main/resources/application.properties`:
 
 ```properties
-spring.application.name=CGPA-Management-System
+spring.application.name=AcadHub
 
 spring.datasource.url=${DB_URL:jdbc:mysql://localhost:3306/cgpa_db?createDatabaseIfNotExist=true}
 spring.datasource.username=${DB_USERNAME:root}
@@ -203,7 +206,7 @@ cd backend
 ```
 
 Backend will be live at **`http://localhost:8080`**.
-You should see `Started CgpaBoosterApplication` in the console.
+You should see `Started AcadHubApplication` in the console.
 
 ### 5️⃣ Start the frontend
 
@@ -349,6 +352,22 @@ http://localhost:8080/api
 
 ---
 
+## 🎨 Brand Colors
+
+| Purpose | Hex |
+|---------|-----|
+| Primary | `#6c5ce7` |
+| Primary Dark | `#5848d6` |
+| Secondary | `#4f8cff` |
+| Success | `#20bf6b` |
+| Warning | `#f7b731` |
+| Danger | `#eb3b5a` |
+| Background | `#f5f7fb` |
+| Text | `#202534` |
+| Muted | `#7b8191` |
+
+---
+
 ## 🧠 Interesting Implementation Details
 
 ### Per-Slot Attendance Tracking
@@ -421,7 +440,7 @@ curl -X POST http://localhost:8080/api/users/login \
 
 ## 🤝 Contributing
 
-Contributions are welcome! If you'd like to improve CGPA Booster:
+Contributions are welcome! If you'd like to improve AcadHub:
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/my-feature`
